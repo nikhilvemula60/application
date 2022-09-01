@@ -4,7 +4,7 @@ import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import sys
-sys.path.append("/Users/harshithvemula/Downloads/post/src/app")
+sys.path.append("/")
 import src.utils as ut
 
 app = Flask(__name__) 
