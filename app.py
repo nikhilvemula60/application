@@ -49,4 +49,4 @@ def predict():
 #var port = process.env.PORT || 3000;
 
 if __name__ == "__main__":
-    run(debug=True)
+    app.run(debug=True)
