@@ -10,7 +10,7 @@ app = Flask(__name__)
 model = ut.create_model(24775, 20)
 model.load_weights('models/epochs_100_to_200.h5')
 
-@app.route('/') # Homepage
+@app.route('/index.html') # Homepage
 def home():
     return render_template('index.html')
 
