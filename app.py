@@ -46,7 +46,6 @@ def predict():
 
     return render_template('index.html', prediction_text=f'Completed Poem: {seed_text_copy}... {text}') # rendering the predicted result
 
-port = process.env.PORT || 3000
 
 if __name__ == "__main__":
     app.run(debug=True)
