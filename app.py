@@ -10,11 +10,11 @@ app = Flask(__name__)
 model = ut.create_model(24775, 20)
 model.load_weights('models/epochs_100_to_200.h5')
 
-@route('/') # Homepage
+@app.route('/') # Homepage
 def home():
     return render_template('index.html')
 
-@route('/predict',methods=['POST'])
+@app.route('/predict',methods=['POST'])
 def predict():
     '''
     For rendering results on HTML GUI
@@ -46,7 +46,7 @@ def predict():
 
     return render_template('index.html', prediction_text=f'Completed Poem: {seed_text_copy}... {text}') # rendering the predicted result
 
-#var port = process.env.PORT || 3000;
+port = process.env.PORT || 3000
 
 if __name__ == "__main__":
     app.run(debug=True)
