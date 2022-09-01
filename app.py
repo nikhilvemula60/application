@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import sys
 import utils as ut
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8080
 app = Flask(__name__) 
 model = ut.create_model(24775, 20)
 model.load_weights('models/epochs_100_to_200.h5')
