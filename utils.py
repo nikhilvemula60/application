@@ -120,7 +120,7 @@ def generate_poetry_characters(seed_text, poetry_length, n_lines, model, char_in
     print(text)
 
 if __name__ == '__main__':
-    data = load_text_data('../data/preprocessed_data.csv')
+    data = load_text_data('/data/preprocessed_data.csv')
     encoded_texts = tokenize_texts(data)
     X_train, X_test, y_train, y_test = get_train_test_split(encoded_texts, n_prev)
     num_words = len(tokenizer.word_index) + 1
