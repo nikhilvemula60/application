@@ -48,7 +48,5 @@ def predict():
 
 var port = process.env.PORT || 3000;
 
-app.listen(port);
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    run(debug=True)
