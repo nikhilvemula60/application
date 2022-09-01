@@ -5,7 +5,7 @@ import tensorflow.keras as keras
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import sys
 sys.path.append("/")
-import src.utils as ut
+import utils as ut
 
 app = Flask(__name__) 
 model = ut.create_model(24775, 20)
