@@ -1,7 +1,8 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Edgar Allan Poem Generator</title>
+  <title>Sentence Generation Using Bidirectional LSTM</title>
+<title> Nikhil Vemula Final Project</title>
   <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
@@ -11,15 +12,15 @@
 </head>
 <body>
  <div class="login">
-	<h1>Edgar Allan Poem Generator</h1>
+	<h1> Sentence generation</h1>
 
      <!-- Main Input For Receiving Query to our ML -->
     <form action="{{ url_for('predict')}}"method="post">
     	 
     	<input type="text" name="seed_text" placeholder="Seed Text" required="required" autocomplete="off" />
-        <input type="text" name="poem_length" placeholder="Poem Length" required="required" autocomplete="off" />
+        <input type="text" name="poem_length" placeholder="No of words to generate" required="required" autocomplete="off" />
         
-        <button type="submit" class="btn btn-primary btn-block btn-large">Generate "Poetry"</button>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Generate "words"</button>
     </form>
 
    <br>
