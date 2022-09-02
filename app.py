@@ -44,7 +44,7 @@ def predict():
     seed_text = text[-1]
     text = ' '.join(text)
 
-    return render_template('index.html', prediction_text=f'Completed Poem: {seed_text_copy}... {text}') # rendering the predicted result
+    return render_template('index.html', prediction_text=f'Sentence generated: {seed_text_copy} {text}') # rendering the predicted result
 
 
 if __name__ == "__main__":
