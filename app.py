@@ -4,8 +4,7 @@ import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import sys
-sys.path.append("/Users/harshithvemula/Downloads/post/src/app")
-import src.utils as ut
+import utils as ut
 
 app = Flask(__name__) 
 model = ut.create_model(24775, 20)
@@ -45,7 +44,8 @@ def predict():
     seed_text = text[-1]
     text = ' '.join(text)
 
-    return render_template('index.html', prediction_text=f'Completed Poem: {seed_text_copy}... {text}') # rendering the predicted result
+    return render_template('index.html', prediction_text=f'Sentence generated: {seed_text_copy} {text}') # rendering the predicted result
+
 
 if __name__ == "__main__":
     app.run(debug=True)
