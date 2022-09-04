@@ -50,7 +50,7 @@ def create_model(num_words, n_prev):
    model.add(Dropout(.3))
    model.add(Bidirectional(LSTM(128)))
    model.add(Dropout(.3))
-   model.add(Dense(total_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
+   model.add(Dense(num_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
    model.add(Dense(num_words, activation='softmax'))
    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics='accuracy')
    return model
