@@ -14,9 +14,7 @@ from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.metrics import CategoricalAccuracy 
 
 n_prev=100
-!wget --no-check-certificate \
-    https://storage.googleapis.com/laurencemoroney-blog.appspot.com/sonnets.txt \
-    -O /tmp/sonnets.txt
+!wget --no-check-certificate \https://storage.googleapis.com/laurencemoroney-blog.appspot.com/sonnets.txt \-O /tmp/sonnets.txt
     
 tokenizer = Tokenizer()
 
