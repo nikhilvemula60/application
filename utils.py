@@ -9,6 +9,9 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dropout, LSTM, Dense, Embedding , Bidirectional
+from tensorflow.keras import regularizers
+from tensorflow.keras.optimizers import Adam
+
 
 n_prev = 100
 tokenizer = Tokenizer()
