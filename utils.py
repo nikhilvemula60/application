@@ -45,12 +45,9 @@ def _windowize_data(data, n_prev):
 def create_model(num_words, n_prev):  
     model = Sequential()
     forward_layer = LSTM(10, return_sequences=True)
-    backward_layer = LSTM(10, activation='relu', return_sequences=True,
-                      go_backwards=True)
-    model.add(Bidirectional(forward_layer, backward_layer=backward_layer,
-                        input_shape=(5, 10)))
-    model.add(Dense(num_words))
-    model.add(activation('softmax'))
+    backward_layer = LSTM(10, activation='relu', return_sequences=True,go_backwards=True)
+    model.add(Bidirectional(forward_layer, backward_layer=backward_layer,input_shape=(5, 10)))
+    model.add(Dense(num_words, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
     return model
 
