@@ -42,16 +42,18 @@ def _windowize_data(data, n_prev):
     x = data[indices]
     return x, y
 
-def create_model(num_words, n_prev):
-    optimizer = keras.optimizers.Adam(learning_rate=.0001)
+def create_model(num_words, n_prev):  
     model = Sequential()
-    model.add(Embedding(num_words, 128, input_length=n_prev))
-    model.add(Bidirectional(LSTM(150,input_shape=(n_prev,1), return_sequences=True)))
-    model.add(Dropout(0.3))
-    model.add(Bidirectional(LSTM(96)))
-    model.add(Dense(num_words, activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics='accuracy')
+    forward_layer = LSTM(10, return_sequences=True)
+    backward_layer = LSTM(10, activation='relu', return_sequences=True,
+                      go_backwards=True)
+    model.add(Bidirectional(forward_layer, backward_layer=backward_layer,
+                        input_shape=(5, 10)))
+    model.add(Dense(num_words))
+    model.add(Activation('softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
     return model
+
 
 def generate_poetry_words(seed_text, poetry_length, n_lines, model):
   for i in range(n_lines):
