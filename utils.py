@@ -46,7 +46,7 @@ def _windowize_data(data, n_prev):
 
 def create_model(num_words, n_prev):
     model = Sequential()
-    model.add(Embedding(num_words, 100, input_length=n_prev-1))
+    model.add(Embedding(num_words, 100, input_length=10))
     model.add(Bidirectional(LSTM(150, return_sequences=True)))
     model.add(Dropout(0.3))
     model.add(Bidirectional(LSTM(96)))
