@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import os
 import tensorflow.keras as keras
 from sklearn.model_selection import train_test_split
 
@@ -12,7 +11,6 @@ from tensorflow.keras.layers import Dropout, LSTM, Dense, Embedding , Bidirectio
 from tensorflow.keras import regularizers
 from tensorflow.keras.optimizers import Adam
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 n_prev = 100
 tokenizer = Tokenizer()
@@ -47,13 +45,15 @@ def _windowize_data(data, n_prev):
 
 
 def create_model(num_words, n_prev):
+    optimizer = keras.optimizers.Adam(learning_rate=.0001)
     model = Sequential()
-    model.add(Embedding(num_words, 100, input_length=n_prev))
-    model.add(Bidirectional(LSTM(150, input_shape=(n_prev,1), return_sequences=True)))
-    model.add(Dropout(.3))
-    model.add(Bidirectional(LSTM(96)))
-    model.add(Dense(num_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
+    model.add(Embedding(num_words, 128, input_length=n_prev))
+    model.add(LSTM(128, input_shape=(n_prev,1), return_sequences=True))
+    model.add(Dropout(.2))
+    model.add(LSTM(128))
+    model.add(Dropout(.2))
     model.add(Dense(num_words, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics='accuracy')
     return model
 
 
