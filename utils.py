@@ -12,6 +12,9 @@ from tensorflow.keras import regularizers
 from tensorflow.keras.optimizers import Adam
 
 n_prev = 100
+rnn_size = 256 # size of RNN
+seq_length = 30 # sequence length
+learning_rate = 0.001 #learning rate
 tokenizer = Tokenizer()
 
 def load_text_data(filepath):
