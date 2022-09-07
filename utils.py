@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import os
 import tensorflow.keras as keras
 from sklearn.model_selection import train_test_split
 
@@ -11,6 +12,7 @@ from tensorflow.keras.layers import Dropout, LSTM, Dense, Embedding , Bidirectio
 from tensorflow.keras import regularizers
 from tensorflow.keras.optimizers import Adam
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 n_prev = 100
 tokenizer = Tokenizer()
