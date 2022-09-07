@@ -50,7 +50,7 @@ def create_model(num_words, n_prev):
     model.add(Bidirectional(forward_layer, backward_layer=backward_layer,
                         input_shape=(5, 10)))
     model.add(Dense(num_words))
-    model.add(Activation('softmax'))
+    model.add(activation('softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
     return model
 
