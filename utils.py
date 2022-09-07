@@ -44,7 +44,6 @@ def _windowize_data(data, n_prev):
     return x, y
 
 def create_model(num_words, n_prev):
-    optimizer = keras.optimizers.Adam(learning_rate=.0001)
     model = Sequential()
     model.add(Embedding(num_words, 128, input_length=n_prev))
     model.add(Bidirectional(LSTM(150, return_sequences=True)))
