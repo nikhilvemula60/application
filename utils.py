@@ -13,41 +13,45 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.metrics import CategoricalAccuracy 
 
-n_prev = 100
+n_prev=100
+!wget --no-check-certificate \
+    https://storage.googleapis.com/laurencemoroney-blog.appspot.com/sonnets.txt \
+    -O /tmp/sonnets.txt
+    
 tokenizer = Tokenizer()
 
-def load_text_data(filepath):
-    data = pd.read_csv(filepath)
-    text = data['text']
-    return text
+data= open('/tmp/sonnets.txt').read()
 
-def tokenize_texts(texts):
-    tokenizer.fit_on_texts(texts)
-    encoded_texts = tokenizer.texts_to_sequences(texts)
-    return encoded_texts
+corpus = data.lower().split('\n')
 
-def encode_characters(texts):
-    texts = texts.apply(lambda x: [ele for ele in x])
-    chars = sorted(set(texts.explode()))
-    char_indices = dict((char, chars.index(char)+1) for char in chars)
-    encoded_texts = []
-    for text in texts:
-        encoded = np.array([char_indices[char] for char in text])
-        encoded_texts.append(encoded)
-    return encoded_texts, char_indices
+tokenizer.fit_on_texts(corpus)
+num_words = len(tokenizer.word_index) + 1
 
-def _windowize_data(data, n_prev):
-    data = np.array(data)
-    n_predictions = len(data) - n_prev
-    y = data[n_prev:]
-    indices = np.arange(n_prev) + np.arange(n_predictions)[:, None]
-    x = data[indices]
-    return x, y
+input_sequences = []
+
+for line in corpus:
+  token_list = tokenizer.texts_to_sequences([line])[0]
+  for i in range(1, len(token_list)):
+    n_gram_sequence = token_list[:i+1]
+    input_sequences.append(n_gram_sequence)
+
+
+#pad sequences
+max_sequence_len = max([len(seq) for seq in input_sequences])
+
+
+input_sequences = np.array(pad_sequences(input_sequences, padding='pre', maxlen=max_sequence_len))
+
+#create predictors and labels
+xs, labels = input_sequences[:,:-1], input_sequences[:,-1]
+
+ys = tf.keras.utils.to_categorical(labels, num_classes=num_words)
+
 
 
 def create_model(num_words, n_prev):
     model = Sequential()
-    model.add(Embedding(num_words, 100, input_length=70-1))
+    model.add(Embedding(num_words, 100, input_length=max_sequence_len-1))
     model.add(Bidirectional(LSTM(150, return_sequences=True)))
     model.add(Dropout(0.3))
     model.add(Bidirectional(LSTM(96)))
