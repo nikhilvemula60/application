@@ -43,17 +43,33 @@ def _windowize_data(data, n_prev):
     x = data[indices]
     return x, y
 
+input_sequences = []
+
+for line in corpus:
+  token_list = tokenizer.texts_to_sequences([line])[0]
+  for i in range(1, len(token_list)):
+    n_gram_sequence = token_list[:i+1]
+    input_sequences.append(n_gram_sequence)
+
+max_sequence_len = max([len(seq) for seq in input_sequences])
+
+
+input_sequences = np.array(pad_sequences(input_sequences, padding='pre', maxlen=max_sequence_len))
+
+xs, labels = input_sequences[:,:-1], input_sequences[:,-1]
+
+ys = tf.keras.utils.to_categorical(labels, num_classes=total_words)
+
 
 def create_model(num_words, n_prev):
     optimizer = keras.optimizers.Adam(learning_rate=.0001)
     model = Sequential()
     model.add(Embedding(num_words, 128, input_length=n_prev))
-    model.add(LSTM(128, input_shape=(n_prev,1), return_sequences=True))
-    model.add(Dropout(.2))
-    model.add(LSTM(128))
-    model.add(Dropout(.2))
+    model.add(Bidirectional(LSTM(150, return_sequences=True)))
+    model.add(Dropout(0.3))
+    model.add(Bidirectional(LSTM(96)))
+    model.add(Dense(num_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
     model.add(Dense(num_words, activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics='accuracy')
     return model
 
 
