@@ -46,14 +46,14 @@ def _windowize_data(data, n_prev):
 
 
 def create_model(num_words, n_prev):
-   model = Sequential()
-   model.add(Embedding(num_words, 100, input_length=n_prev))
-   model.add(Bidirectional(LSTM(150, input_shape=(n_prev,1), return_sequences=True)))
-   model.add(Dropout(.3))
-   model.add(Bidirectional(LSTM(96)))
-   model.add(Dense(num_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
-   model.add(Dense(num_words, activation='softmax'))
-   return model
+    model = Sequential()
+    model.add(Embedding(num_words, 100, input_length=n_prev))
+    model.add(Bidirectional(LSTM(150, input_shape=(n_prev,1), return_sequences=True)))
+    model.add(Dropout(.3))
+    model.add(Bidirectional(LSTM(96)))
+    model.add(Dense(num_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
+    model.add(Dense(num_words, activation='softmax'))
+    return model
 
 
 
