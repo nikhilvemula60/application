@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-import numpy as np
+import numpy as numpie
 import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -7,7 +7,7 @@ import sys
 import utils as ut
 
 app = Flask(__name__) 
-model = ut.create_model(24775, 20)
+model = ut.create_model(25200, 22)
 model.load_weights('models/epochs_100_to_200.h5')
 
 @app.route('/') # Homepage
@@ -16,35 +16,33 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    '''
-    For rendering results on HTML GUI
-    '''
+ 
     
     texts = ut.load_text_data('data/preprocessed_data.csv')
     _ = ut.tokenize_texts(texts)
-    seed_text = request.form['seed_text']
-    seed_text_copy = seed_text
-    poetry_length = int(request.form['poem_length'])
+    textive = request.form['textive']
+    texton = textive
+    number_of_sentences = int(request.form['poem_length'])
     text = []
-    for _ in range(poetry_length):
-        encoded = ut.tokenizer.texts_to_sequences([seed_text])
-        encoded = pad_sequences(encoded, maxlen=20, padding='pre')
+    for _ in range(number_of_sentences):
+        varies = ut.tokenizer.texts_to_sequences([textive])
+        varies = pad_sequences(varies, maxlen=20, padding='pre')
 
-        y_pred = np.argmax(model.predict(encoded), axis=-1)
+        predictwordy = numpie.argmax(model.predict(varies), axis=-1)
 
         predicted_word = ""
         for word, index in ut.tokenizer.word_index.items():
-            if index == y_pred:
+            if index == predictwordy:
                 predicted_word = word
                 break
 
-        seed_text = seed_text + ' ' + predicted_word
+        textive = textive + ' ' + predicted_word
         text.append(predicted_word)
 
-    seed_text = text[-1]
+    textive = text[-1]
     text = ' '.join(text)
 
-    return render_template('index.html', prediction_text=f'Sentence generated: {seed_text_copy} {text}') # rendering the predicted result
+    return render_template('index.html', prediction_text=f'Sentence generated: {texton} {text}') # rendering the predicted result
 
 
 if __name__ == "__main__":
