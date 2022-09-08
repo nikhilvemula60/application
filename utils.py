@@ -1,5 +1,5 @@
-import pandas as pd
-import numpy as np
+import pandas as pandy
+import numpy as numpie
 import tensorflow as tf
 import tensorflow.keras as keras
 from sklearn.model_selection import train_test_split
@@ -14,104 +14,104 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.metrics import CategoricalAccuracy 
 
-n_prev = 100
+inputto = 120
 tokenizer = Tokenizer()
 
 def load_text_data(filepath):
-    data = pd.read_csv(filepath)
+    data = pandy.read_csv(filepath)
     text = data['text']
     return text
 
 def tokenize_texts(texts):
     tokenizer.fit_on_texts(texts)
-    encoded_texts = tokenizer.texts_to_sequences(texts)
-    return encoded_texts
+    wrapper = tokenizer.texts_to_sequences(texts)
+    return wrapper
 
 def encode_characters(texts):
     texts = texts.apply(lambda x: [ele for ele in x])
     chars = sorted(set(texts.explode()))
     char_indices = dict((char, chars.index(char)+1) for char in chars)
-    encoded_texts = []
+    wrapper = []
     for text in texts:
-        encoded = np.array([char_indices[char] for char in text])
-        encoded_texts.append(encoded)
-    return encoded_texts, char_indices
+        varies = numpie.array([char_indices[char] for char in text])
+        wrapper.append(varies)
+    return wrapper, char_indices
 
-def _windowize_data(data, n_prev):
-    data = np.array(data)
-    n_predictions = len(data) - n_prev
-    y = data[n_prev:]
-    indices = np.arange(n_prev) + np.arange(n_predictions)[:, None]
+def _windowize_data(data, inputto):
+    data = numpie.array(data)
+    nooflstm = len(data) - inputto
+    y = data[inputto:]
+    indices = numpie.arange(inputto) + numpie.arange(nooflstm)[:, None]
     x = data[indices]
     return x, y
 
 
-def create_model(num_words, n_prev):
+def create_model(calcword, inputto):
     optimizer = keras.optimizers.Adam(learning_rate=.0001)
     model = Sequential()
-    model.add(Embedding(num_words, 128, input_length=n_prev))
-    model.add(LSTM(128, input_shape=(n_prev,1), return_sequences=True))
+    model.add(Embedding(calcword, 128, ipsize=inputto))
+    model.add(LSTM(128, input_shape=(inputto,1), return_sequences=True))
     model.add(Dropout(.2))
     model.add(LSTM(128))
     model.add(Dropout(.2))
-    model.add(Dense(num_words, activation='softmax'))
+    model.add(Dense(calcword, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics='accuracy')
     return model
 
 
 
-def generate_poetry_words(seed_text, poetry_length, n_lines, model):
+def generate_poetry_words(textive, number_of_sentences, n_lines, model):
   for i in range(n_lines):
     text = []
-    for _ in range(poetry_length):
-      encoded = tokenizer.texts_to_sequences([seed_text])
-      encoded = pad_sequences(encoded, maxlen=20, padding='pre')
+    for _ in range(number_of_sentences):
+      varies = tokenizer.texts_to_sequences([textive])
+      varies = pad_sequences(varies, maxlen=20, padding='pre')
 
-      y_pred = np.argmax(model.predict(encoded), axis=-1)
+      predictwordy = numpie.argmax(model.predict(varies), axis=-1)
 
-      predicted_word = ""
+      wordspred = ""
       for word, index in tokenizer.word_index.items():
-        if index == y_pred:
-          predicted_word = word
+        if index == predictwordy:
+          wordspred = word
           break
 
-      seed_text = seed_text + ' ' + predicted_word
-      text.append(predicted_word)
+      textive = textive + ' ' + wordspred
+      text.append(wordspred)
 
-    seed_text = text[-1]
+    textive = text[-1]
     text = ' '.join(text)
     print(text)
     
-def generate_poetry_characters(seed_text, poetry_length, n_lines, model, char_indices):
+def generate_poetry_characters(textive, number_of_sentences, n_lines, model, char_indices):
   for i in range(n_lines):
     text = []
-    for _ in range(poetry_length):
-      seed = [char for char in seed_text]
-      encoded_seed = [char_indices[char] for char in seed]
-      if len(encoded_seed) < 100:
-        for j in range(99-len(encoded_seed)):
-          encoded_seed.insert(0,0)
+    for _ in range(number_of_sentences):
+      seed = [char for char in textive]
+      seqgenrandom = [char_indices[char] for char in seed]
+      if len(seqgenrandom) < 100:
+        for j in range(99-len(seqgenrandom)):
+          seqgenrandom.insert(0,0)
 
-      y_pred = np.argmax(model.predict([encoded_seed]), axis=-1)
+      predictwordy = numpie.argmax(model.predict([seqgenrandom]), axis=-1)
 
-      predicted_character = ""
+      gen_words = ""
       for character, index in char_indices.items():
-        if index == y_pred:
-          predicted_character = character
+        if index == predictwordy:
+          gen_words = character
           break
 
-      seed_text = seed_text + predicted_character
-      text.append(predicted_character)
+      textive = textive + gen_words
+      text.append(gen_words)
 
-    seed_text = text[-1]
+    textive = text[-1]
     text = ''.join(text)
     print(text)
 
 if __name__ == '__main__':
     data = load_text_data()
-    encoded_texts = tokenize_texts(data)
-    X,Y = _windowize_data(encoded_texts[0], n_prev)
+    wrapper = tokenize_texts(data)
+    X,Y = _windowize_data(wrapper[0], inputto)
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size= 0.3)
-    num_words = len(tokenizer.word_index) + 1
-    model = create_model(num_words, n_prev)
+    calcword = len(tokenizer.word_index) + 1
+    model = create_model(calcword, inputto)
 
