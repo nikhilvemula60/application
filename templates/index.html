@@ -11,8 +11,8 @@
 
     <form action="{{ url_for('predict')}}"method="post"> // creating form action where to post the data
     	 
-    	<input type="text"  required="required" name="seed_text" placeholder="Seed Text"/> // creating a text box for input
-        <input type="text" required="required"  name="poem_length" placeholder="No of words to generate"/> // creating a text box for input
+    	<input type="text"  required="required" name="textive" placeholder="Enter a sentence"/> // creating a text box for input
+        <input type="text" required="required"  name="no_of_words" placeholder="No of words to generate"/> // creating a text box for input
         
         <button type="submit" class="btn btn-primary btn-block btn-large">Generate "words"</button> //submitting the data 
     </form>
