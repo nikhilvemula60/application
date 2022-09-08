@@ -19,22 +19,22 @@ tokenizer = Tokenizer()
 
 def load_text_data(filepath):
     data = pd.read_csv(filepath)
-    sent = data['sent']
-    return sent
+    text = data['text']
+    return text
 
-def tokenize_texts(sents):
-    tokenizer.fit_on_texts(sents)
-    encoded_texts = tokenizer.texts_to_sequences(sents)
+def tokenize_texts(texts):
+    tokenizer.fit_on_texts(texts)
+    encoded_texts = tokenizer.texts_to_sequences(texts)
     return encoded_texts
 
-def encode_characters(sents):
-    sents = sents.apply(lambda x: [ele for ele in x])
-    chars = sorted(set(sents.explode()))
+def encode_characters(texts):
+    texts = texts.apply(lambda x: [ele for ele in x])
+    chars = sorted(set(texts.explode()))
     char_indices = dict((char, chars.index(char)+1) for char in chars)
     encoded_texts = []
-    for sent in sents:
-        varies = np.array([char_indices[char] for char in sent])
-        encoded_texts.append(varies)
+    for text in texts:
+        encoded = np.array([char_indices[char] for char in text])
+        encoded_texts.append(encoded)
     return encoded_texts, char_indices
 
 def _windowize_data(data, n_prev):
@@ -60,14 +60,14 @@ def create_model(num_words, n_prev):
 
 
 
-def generate_poetry_words(textive, sentence_length, n_lines, model):
+def generate_poetry_words(seed_text, poetry_length, n_lines, model):
   for i in range(n_lines):
-    sent = []
-    for _ in range(sentence_length):
-      varies = tokenizer.texts_to_sequences([textive])
-      varies = pad_sequences(varies, maxlen=20, padding='pre')
+    text = []
+    for _ in range(poetry_length):
+      encoded = tokenizer.texts_to_sequences([seed_text])
+      encoded = pad_sequences(encoded, maxlen=20, padding='pre')
 
-      y_pred = np.argmax(model.predict(varies), axis=-1)
+      y_pred = np.argmax(model.predict(encoded), axis=-1)
 
       predicted_word = ""
       for word, index in tokenizer.word_index.items():
@@ -75,18 +75,18 @@ def generate_poetry_words(textive, sentence_length, n_lines, model):
           predicted_word = word
           break
 
-      textive = textive + ' ' + predicted_word
-      sent.append(predicted_word)
+      seed_text = seed_text + ' ' + predicted_word
+      text.append(predicted_word)
 
-    textive = sent[-1]
-    sent = ' '.join(sent)
-    print(sent)
+    seed_text = text[-1]
+    text = ' '.join(text)
+    print(text)
     
-def generate_poetry_characters(textive, sentence_length, n_lines, model, char_indices):
+def generate_poetry_characters(seed_text, poetry_length, n_lines, model, char_indices):
   for i in range(n_lines):
-    sent = []
-    for _ in range(sentence_length):
-      seed = [char for char in textive]
+    text = []
+    for _ in range(poetry_length):
+      seed = [char for char in seed_text]
       encoded_seed = [char_indices[char] for char in seed]
       if len(encoded_seed) < 100:
         for j in range(99-len(encoded_seed)):
@@ -100,12 +100,12 @@ def generate_poetry_characters(textive, sentence_length, n_lines, model, char_in
           predicted_character = character
           break
 
-      textive = textive + predicted_character
-      sent.append(predicted_character)
+      seed_text = seed_text + predicted_character
+      text.append(predicted_character)
 
-    textive = sent[-1]
-    sent = ''.join(sent)
-    print(sent)
+    seed_text = text[-1]
+    text = ''.join(text)
+    print(text)
 
 if __name__ == '__main__':
     data = load_text_data()
