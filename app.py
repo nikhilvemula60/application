@@ -1,50 +1,47 @@
 from flask import Flask, request, render_template
-import numpy as np
-import tensorflow as tf
+import numpy as numpi
+import tensorflow as tensorf
 import tensorflow.keras as keras
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import sys
-import utils as ut
+import utils as utyl
 
 app = Flask(__name__) 
-model = ut.create_model(24775, 20)
-model.load_weights('models/epochs_100_to_200.h5')
+model = utyl.create_model(22676, 22)
+model.load_weights('models/final_model.h5')
 
-@app.route('/') # Homepage
+@app.route('/') 
 def home():
     return render_template('index.html')
 
-@app.route('/predict',methods=['POST'])
-def predict():
-    '''
-    For rendering results on HTML GUI
-    '''
-    
-    texts = ut.load_text_data('data/preprocessed_data.csv')
-    _ = ut.tokenize_texts(texts)
-    seed_text = request.form['seed_text']
-    seed_text_copy = seed_text
-    poetry_length = int(request.form['poem_length'])
-    text = []
-    for _ in range(poetry_length):
-        encoded = ut.tokenizer.texts_to_sequences([seed_text])
-        encoded = pad_sequences(encoded, maxlen=20, padding='pre')
+@app.route('/sentence',methods=['POST'])
+def sentence():
+  
+    sents = utyl.load_text_data('data/csvfilewithtxtbook.csv')
+    _ = utyl.tokenize_texts(sents)
+    textive = request.form['textive']
+    reference_variable = textive
+    sentence_length = int(request.form['no_of_words'])
+    sent = []
+    for _ in range(sentence_length):
+        varies = utyl.tokenizer.texts_to_sequences([textive])
+        varies = pad_sequences(varies, maxlen=20, padding='pre')
 
-        y_pred = np.argmax(model.predict(encoded), axis=-1)
+        y_pred = numpi.argmax(model.sentence(varies), axis=-1)
 
         predicted_word = ""
-        for word, index in ut.tokenizer.word_index.items():
+        for word, index in utyl.tokenizer.word_index.items():
             if index == y_pred:
                 predicted_word = word
                 break
 
-        seed_text = seed_text + ' ' + predicted_word
-        text.append(predicted_word)
+        textive = textive + ' ' + predicted_word
+        sent.append(predicted_word)
 
-    seed_text = text[-1]
-    text = ' '.join(text)
+    textive = sent[-1]
+    sent = ' '.join(sent)
 
-    return render_template('index.html', prediction_text=f'Sentence generated: {seed_text_copy} {text}') # rendering the predicted result
+    return render_template('index.html', sentence_generated=f'Sentence generated: {reference_variable} {sent}') 
 
 
 if __name__ == "__main__":
