@@ -18,7 +18,7 @@ n_prev=100
     
 tokenizer = Tokenizer()
 
-data= open('/data/book.txt').read()
+data= open('data/book.txt').read()
 
 corpus = data.lower().split('\n')
 
