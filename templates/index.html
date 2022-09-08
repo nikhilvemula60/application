@@ -1,27 +1,27 @@
 <html> 
 <head>
   <meta charset="UTF-8">
-  <title>Sentence Generation Using Bidirectional LSTM</title> //creating a title for the web page
+  <title>Sentence Generation Using Bidirectional LSTM</title> <!-- creating a title for the web page -->
 	<title> Nikhil Vemula Final Project</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"> //Linking the style sheet with the css
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}"> <!-- Linking the style sheet with the css -->
 </head>
 <body>
- <div class="login"> //creating a class so that we can build css
+ <div class="login"> <!-- creating a class so that we can build css -->
 	<h1> Sentence generation</h1>
 
-    <form action="{{ url_for('predict')}}"method="post"> // creating form action where to post the data
+    <form action="{{ url_for('predict')}}"method="post">  <!--  creating form action where to post the data-->
     	 
-    	<input type="text"  required="required" name="textive" placeholder="Enter a sentence"/> // creating a text box for input
-        <input type="text" required="required"  name="input_length" placeholder="No of words to generate"/> // creating a text box for input
+    	<input type="text"  required="required" name="textive" placeholder="Enter a sentence"/> <!-- creating a text box for input-->
+        <input type="text" required="required"  name="input_length" placeholder="No of words to generate"/> <!-- creating a text box for input-->
         
-        <button type="submit" class="btn btn-primary btn-block btn-large">Generate "words"</button> //submitting the data 
+        <button type="submit" class="btn btn-primary btn-block btn-large">Generate "words"</button>  <!-- submitting the data-->
     </form>
 
-   <br> <br> // To produce some gap between the page
+   <br> <br>  <!-- To produce some gap between the page-->
    <br>
    <br> <br>
    <br>
-   {{ prediction_text }} // to display output on the page
+   {{ prediction_text }}  <!--To display output on the page-->
  </div>
 </body>
 </html>
