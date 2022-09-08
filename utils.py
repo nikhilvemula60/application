@@ -14,7 +14,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.metrics import CategoricalAccuracy 
 
-inputto = 120
+inputto = 100
 tokenizer = Tokenizer()
 
 def load_text_data(filepath):
