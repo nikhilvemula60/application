@@ -30,14 +30,14 @@ def predict():
 
         predictwordy = numpie.argmax(model.predict(varies), axis=-1)
 
-        predicted_word = ""
+        wordspred = ""
         for word, index in ut.tokenizer.word_index.items():
             if index == predictwordy:
-                predicted_word = word
+                wordspred = word
                 break
 
-        textive = textive + ' ' + predicted_word
-        text.append(predicted_word)
+        textive = textive + ' ' + wordspred
+        text.append(wordspred)
 
     textive = text[-1]
     text = ' '.join(text)
