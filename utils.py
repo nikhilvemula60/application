@@ -49,7 +49,7 @@ def _windowize_data(data, inputto):
 def create_model(calcword, inputto):
     optimizer = keras.optimizers.Adam(learning_rate=.0001)
     model = Sequential()
-    model.add(Embedding(calcword, 128, ipsize=inputto))
+    model.add(Embedding(calcword, 128, no_of_words=inputto))
     model.add(LSTM(128, input_shape=(inputto,1), return_sequences=True))
     model.add(Dropout(.2))
     model.add(LSTM(128))
