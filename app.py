@@ -8,7 +8,7 @@ import utils as utyl
 
 app = Flask(__name__) 
 model = utyl.create_model(22676, 22)
-model.load_weights('models/final_model.h5')
+model.load_weights('models/epochs_100_to_200.h5')
 
 @app.route('/') 
 def home():
@@ -17,7 +17,7 @@ def home():
 @app.route('/sentence',methods=['POST'])
 def sentence():
   
-    sents = utyl.load_text_data('data/csvfilewithtxtbook.csv')
+    sents = utyl.load_text_data('data/preprocessed_data.csv')
     _ = utyl.tokenize_texts(sents)
     textive = request.form['textive']
     reference_variable = textive
