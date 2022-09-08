@@ -1,29 +1,20 @@
 <html >
 <head>
-  <meta charset="UTF-8">
   <title>Sentence Generation Using Bidirectional LSTM</title>
 	<title> Nikhil Vemula Final Project</title>
-
-	
-<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-  
+  <link rel="stylesheet" href="{{ url_for('style', filename='main.css') }}">
 </head>
 <body>
- <div class="login">
-	<h1> Sentence generation</h1>
-
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-    	 
-    	<input type="text" name="seed_text" placeholder="Seed Text" required="required" autocomplete="off" />
-        <input type="text" name="poem_length" placeholder="No of words to generate" required="required" autocomplete="off" />
-        
-        <button type="submit" class="btn btn-primary btn-block btn-large">Generate "words"</button>
+ <div class="formpage">
+    <form action="{{ url_for('sentence')}}"method="post">
+    	<input type="text" required="required" name="textive" placeholder="Type starting text"/>
+      <input type="text" required="required" name="no_of_words" placeholder="No of words to generate"/>
+      <button type="submit" class="btn btn-primary btn-large">Generate Sentence</button>
     </form>
-
-   <br>
-   <br>
-   {{ prediction_text }}
+   <br> <br>
+   <br> <br>
+   <br> <br>
+   {{ sentence_generated }}
  </div>
 </body>
 </html>
