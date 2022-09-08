@@ -60,19 +60,6 @@ def create_model(num_words, n_prev):
 
 
 
-
-def create_model(num_words, n_prev):
-    model = Sequential()
-    model.add(Embedding(num_words, 100, input_length=max_sequence_len-1))
-    model.add(Bidirectional(LSTM(150, return_sequences=True)))
-    model.add(Dropout(0.3))
-    model.add(Bidirectional(LSTM(96)))
-    model.add(Dense(num_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
-    model.add(Dense(num_words, activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-    return model
-
-
 def generate_poetry_words(seed_text, poetry_length, n_lines, model):
   for i in range(n_lines):
     text = []
