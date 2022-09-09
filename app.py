@@ -18,8 +18,8 @@ def home():
 def predict():
  
     
-    texts = ut.file_pandas('data/preprocessed_data.csv')
-    _ = ut.split_text(texts)
+    pre_processed = ut.file_pandas('data/preprocessed_data.csv')
+    _ = ut.split_text(pre_processed)
     textive = request.form['textive']
     texton = textive
     number_of_sentences = int(request.form['input_length'])
