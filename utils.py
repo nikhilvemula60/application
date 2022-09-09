@@ -92,17 +92,17 @@ def sent_gen(textive, number_of_sentences, n_lines, model):
     text = ' '.join(text)
     print(text)
 
-def split_text(texts):
-    tokenizer.fit_on_texts(texts)
-    wrapper = tokenizer.texts_to_sequences(texts)
+def split_text(pre_processed):
+    tokenizer.fit_on_texts(pre_processed)
+    wrapper = tokenizer.texts_to_sequences(pre_processed)
     return wrapper
     
-def text_in_char(texts):
-    texts = texts.apply(lambda x: [ele for ele in x])
-    chars = sorted(set(texts.explode()))
+def text_in_char(pre_processed):
+    pre_processed = pre_processed.apply(lambda x: [ele for ele in x])
+    chars = sorted(set(pre_processed.explode()))
     char_indices = dict((char, chars.index(char)+1) for char in chars)
     wrapper = []
-    for text in texts:
+    for text in pre_processed:
         varies = numpie.array([char_indices[char] for char in text])
         wrapper.append(varies)
     return wrapper, char_indices
