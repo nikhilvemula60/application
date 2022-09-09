@@ -19,7 +19,7 @@ tokenizer = Tokenizer()
 
 def char_gen(textive, number_of_sentences, n_lines, model, char_indices):
   for i in range(n_lines):
-    data_in_filetxt = []
+    text = []
     for _ in range(number_of_sentences):
       seed = [char for char in textive]
       seqgenrandom = [char_indices[char] for char in seed]
@@ -36,16 +36,16 @@ def char_gen(textive, number_of_sentences, n_lines, model, char_indices):
           break
 
       textive = textive + gen_words
-      data_in_filetxt.append(gen_words)
+      text.append(gen_words)
 
-    textive = data_in_filetxt[-1]
-    data_in_filetxt = ''.join(data_in_filetxt)
-    print(data_in_filetxt)
+    textive = text[-1]
+    text = ''.join(text)
+    print(text)
 
 def file_pandas(filepath):
     data = pandy.read_csv(filepath)
-    data_in_filetxt = data['data_in_filetxt']
-    return data_in_filetxt
+    text = data['text']
+    return text
 
 def complete_data(data, inputto):
     data = numpie.array(data)
@@ -72,7 +72,7 @@ def modelfile(calcword, inputto):
 
 def sent_gen(textive, number_of_sentences, n_lines, model):
   for i in range(n_lines):
-    data_in_filetxt = []
+    text = []
     for _ in range(number_of_sentences):
       varies = tokenizer.texts_to_sequences([textive])
       varies = pad_sequences(varies, maxlen=20, padding='pre')
@@ -86,24 +86,24 @@ def sent_gen(textive, number_of_sentences, n_lines, model):
           break
 
       textive = textive + ' ' + wordspred
-      data_in_filetxt.append(wordspred)
+      text.append(wordspred)
 
-    textive = data_in_filetxt[-1]
-    data_in_filetxt = ' '.join(data_in_filetxt)
-    print(data_in_filetxt)
+    textive = text[-1]
+    text = ' '.join(text)
+    print(text)
 
-def split_text(pre_processed):
-    tokenizer.fit_on_texts(pre_processed)
-    wrapper = tokenizer.texts_to_sequences(pre_processed)
+def split_text(texts):
+    tokenizer.fit_on_texts(texts)
+    wrapper = tokenizer.texts_to_sequences(texts)
     return wrapper
     
-def text_in_char(pre_processed):
-    pre_processed = pre_processed.apply(lambda x: [ele for ele in x])
-    chars = sorted(set(pre_processed.explode()))
+def text_in_char(texts):
+    texts = texts.apply(lambda x: [ele for ele in x])
+    chars = sorted(set(texts.explode()))
     char_indices = dict((char, chars.index(char)+1) for char in chars)
     wrapper = []
-    for data_in_filetxt in pre_processed:
-        varies = numpie.array([char_indices[char] for char in data_in_filetxt])
+    for text in texts:
+        varies = numpie.array([char_indices[char] for char in text])
         wrapper.append(varies)
     return wrapper, char_indices
 
