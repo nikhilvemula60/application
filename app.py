@@ -7,7 +7,7 @@ import sys
 import utils as ut
 
 app = Flask(__name__) 
-model = ut.create_model(24775, 20)
+model = ut.modelfile(24775, 20)
 model.load_weights('models/epochs_100_to_200.h5')
 
 @app.route('/') # Homepage
