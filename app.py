@@ -22,7 +22,7 @@ def predict():
     _ = ut.split_text(texts)
     textive = request.form['textive']
     texton = textive
-    number_of_sentences = int(request.form['poem_length'])
+    number_of_sentences = int(request.form['input_length'])
     text = []
     for _ in range(number_of_sentences):
         varies = ut.tokenizer.texts_to_sequences([textive])
