@@ -18,12 +18,12 @@ def home():
 def predict():
  
     
-    pre_processed = ut.file_pandas('data/preprocessed_data.csv')
-    _ = ut.split_text(pre_processed)
+    texts = ut.file_pandas('data/preprocessed_data.csv')
+    _ = ut.split_text(texts)
     textive = request.form['textive']
     texton = textive
     number_of_sentences = int(request.form['input_length'])
-    data_in_filetxt = []
+    text = []
     for _ in range(number_of_sentences):
         varies = ut.tokenizer.texts_to_sequences([textive])
         varies = pad_sequences(varies, maxlen=20, padding='pre')
@@ -37,12 +37,12 @@ def predict():
                 break
 
         textive = textive + ' ' + wordspred
-        data_in_filetxt.append(wordspred)
+        text.append(wordspred)
 
-    textive = data_in_filetxt[-1]
-    data_in_filetxt = ' '.join(data_in_filetxt)
+    textive = text[-1]
+    text = ' '.join(text)
 
-    return render_template('index.html', text_to_generate=f'Sentence generated: {texton} {data_in_filetxt}') # rendering the predicted result
+    return render_template('index.html', text_to_generate=f'Sentence generated: {texton} {text}') # rendering the predicted result
 
 
 if __name__ == "__main__":
