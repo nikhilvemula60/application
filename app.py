@@ -23,7 +23,7 @@ def predict():
     textive = request.form['textive']
     texton = textive
     number_of_sentences = int(request.form['input_length'])
-    text = []
+    data_in_filetxt = []
     for _ in range(number_of_sentences):
         varies = ut.tokenizer.texts_to_sequences([textive])
         varies = pad_sequences(varies, maxlen=20, padding='pre')
@@ -37,12 +37,12 @@ def predict():
                 break
 
         textive = textive + ' ' + wordspred
-        text.append(wordspred)
+        data_in_filetxt.append(wordspred)
 
-    textive = text[-1]
-    text = ' '.join(text)
+    textive = data_in_filetxt[-1]
+    data_in_filetxt = ' '.join(data_in_filetxt)
 
-    return render_template('index.html', text_to_generate=f'Sentence generated: {texton} {text}') # rendering the predicted result
+    return render_template('index.html', text_to_generate=f'Sentence generated: {texton} {data_in_filetxt}') # rendering the predicted result
 
 
 if __name__ == "__main__":
